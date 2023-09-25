@@ -6,40 +6,50 @@
 #define B3DM_CPP_SOURCE_DECODER_H_
 
 #include <cstdint>
+#include <fstream>
 
-class file_interface
+#include <b3dm-cpp/b3dm-cpp_export.hpp>
+
+#include "file.h"
+#include "stream_interface.h"
+
+namespace b3dm
 {
-public:
-  virtual ~file_interface() = default;
 
-  // Returns true if we can read/write bytes from/into the file
-  virtual auto ok() const -> bool = 0;
+const B3DM_CPP_EXPORT uint32_t b3dm_magic = 1835283298;
 
-  // Current position in the file
-  virtual auto tell() -> size_t = 0;
-
-  // Jump to the given position in the file
-  virtual void seek(size_t abs_pos) = 0;
-
-  // Returns the next byte in the file or 0 if ok() = false
-  virtual auto read8() -> uint8_t = 0;
-  virtual auto read(uint8_t* buf, uint32_t size) -> bool = 0;
-
-  // Writes one byte in the file (or do nothing if ok() = false)
-  virtual void write8(uint8_t value) = 0;
-  virtual auto write(const uint8_t* buf, uint32_t size) -> bool = 0;
+struct B3DM_CPP_EXPORT file_header
+{
+  uint32_t magic;
+  uint32_t version;
+  uint32_t byte_length;
+  uint32_t feature_table_json_byte_length;
+  uint32_t feature_table_binary_byte_length;
+  uint32_t batch_table_json_byte_length;
+  uint32_t batch_table_binary_byte_length;
 };
 
-class decoder
+struct B3DM_CPP_EXPORT file_body
+{
+};
+
+class B3DM_CPP_EXPORT decoder
 {
 public:
-  decoder(file_interface* file_interface, void* decoder_delegate);
+  explicit decoder(file_stream* file_interface);
 
-  auto readHeader() -> bool;
-  auto readBody() -> bool;
+  auto get_header() -> const file_header& { return m_header; }
+  auto get_body() -> const file_body& { return m_body; }
+
+  auto read_header() -> bool;
+  auto read_body() -> bool;
 
 private:
-  file_interface* m_file;
+  file_stream* m_file;
+  file_header m_header {};
+  file_body m_body;
 };
+
+}  // namespace b3dm
 
 #endif  // B3DM_CPP_SOURCE_DECODER_H_

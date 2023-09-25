@@ -17,7 +17,9 @@ include(cmake/variables.cmake)
 
 add_library(
     b3dm-cpp_b3dm-cpp
+        source/file.cpp
         source/decoder.cpp)
+
 add_library(b3dm-cpp::b3dm-cpp ALIAS b3dm-cpp_b3dm-cpp)
 
 include(GenerateExportHeader)

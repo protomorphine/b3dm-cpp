@@ -1,6 +1,6 @@
 # b3dm-cpp
 
-This is the b3dm-cpp project.
+Library to provide API to work with b3dm Cesium files.
 
 # Building and installing
 
