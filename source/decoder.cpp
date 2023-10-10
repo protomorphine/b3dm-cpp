@@ -14,7 +14,7 @@ b3dm::decoder::decoder(file_stream* file_interface)
 auto b3dm::decoder::read_header() -> bool
 {
   auto magic_buf = std::make_unique<char>();
-  m_file->read(magic_buf.get(), 4);
+  m_file->read(magic_buf.get(), 4 + 1);
 
   std::string const magic = magic_buf.get();
   uint32_t const version = m_file->read32();
