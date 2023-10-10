@@ -2,6 +2,8 @@
 // Created by Daniil on 9/25/2023.
 //
 
+#include <memory>
+
 #include "b3dm-cpp/decoder.h"
 
 b3dm::decoder::decoder(file_stream* file_interface)
@@ -11,7 +13,10 @@ b3dm::decoder::decoder(file_stream* file_interface)
 
 auto b3dm::decoder::read_header() -> bool
 {
-  uint32_t const magic = m_file->read32();
+  auto magic_buf = std::make_unique<char>();
+  m_file->read(magic_buf.get(), 4);
+
+  std::string const magic = magic_buf.get();
   uint32_t const version = m_file->read32();
   uint32_t const byte_length = m_file->read32();
   uint32_t const feature_table_json_byte_length = m_file->read32();
@@ -19,7 +24,7 @@ auto b3dm::decoder::read_header() -> bool
   uint32_t const batch_table_json_byte_length = m_file->read32();
   uint32_t const batch_table_binary_byte_length = m_file->read32();
 
-  if (magic != b3dm_magic) {
+  if (magic != "b3dm") {
     throw std::runtime_error("header magic number invalid");
   }
 

@@ -13,7 +13,7 @@
 namespace b3dm
 {
 
-class B3DM_CPP_EXPORT stream
+class stream
 {
 public:
   virtual ~stream() = default;

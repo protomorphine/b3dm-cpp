@@ -16,11 +16,9 @@
 namespace b3dm
 {
 
-const B3DM_CPP_EXPORT uint32_t b3dm_magic = 1835283298;
-
 struct B3DM_CPP_EXPORT file_header
 {
-  uint32_t magic;
+  std::string magic;
   uint32_t version;
   uint32_t byte_length;
   uint32_t feature_table_json_byte_length;
