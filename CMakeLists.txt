@@ -4,9 +4,9 @@ include(cmake/prelude.cmake)
 
 project(
     b3dm-cpp
-    VERSION 0.1.0
-    DESCRIPTION "provides API to work with b3dm Cesium files"
-    HOMEPAGE_URL "https://example.com/"
+    VERSION 0.1.1
+    DESCRIPTION "API to read/write with b3dm Cesium files"
+    HOMEPAGE_URL "https://github.com/protomorphine/b3dm-cpp"
     LANGUAGES CXX
 )
 
