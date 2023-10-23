@@ -16,7 +16,9 @@
 namespace b3dm
 {
 
-struct B3DM_CPP_EXPORT file_header
+constexpr std::string_view b3dm_magic = "b3dm";
+
+struct header
 {
   std::string magic;
   uint32_t version;
@@ -27,7 +29,7 @@ struct B3DM_CPP_EXPORT file_header
   uint32_t batch_table_binary_byte_length;
 };
 
-struct B3DM_CPP_EXPORT file_body
+struct body
 {
 };
 
@@ -36,16 +38,16 @@ class B3DM_CPP_EXPORT decoder
 public:
   explicit decoder(file_stream* file_interface);
 
-  auto get_header() -> const file_header& { return m_header; }
-  auto get_body() -> const file_body& { return m_body; }
+  auto get_header() -> const header& { return m_header; }
+  auto get_body() -> const body& { return m_body; }
 
   auto read_header() -> bool;
   auto read_body() -> bool;
 
 private:
   file_stream* m_file;
-  file_header m_header {};
-  file_body m_body;
+  header m_header;
+  body m_body;
 };
 
 }  // namespace b3dm

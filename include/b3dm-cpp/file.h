@@ -30,9 +30,12 @@ public:
 
   // Returns the next byte in the stream or 0 if ok() = false
   auto read8() -> uint8_t override;
-  auto read(char* buf, uint32_t size) -> bool override;
 
+  // Returns the next 4 bytes from stream or 0 if ok() = false
   auto read32() -> uint32_t;
+
+  // Reads 'size' bytes in 'buf'
+  auto read(uint8_t * buf, uint32_t size) -> bool override;
 
   // Writes one byte in the stream (or do nothing if ok() = false)
   void write8(uint8_t value) override;

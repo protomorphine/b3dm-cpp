@@ -13,10 +13,10 @@ b3dm::decoder::decoder(file_stream* file_interface)
 
 auto b3dm::decoder::read_header() -> bool
 {
-  auto magic_buf = std::make_unique<char>();
-  m_file->read(magic_buf.get(), 4 + 1);
+  auto magic_buf = std::make_unique<uint8_t[]>(4 + 1);
+  m_file->read(magic_buf.get(), 4);
 
-  std::string const magic = magic_buf.get();
+  std::string const magic = reinterpret_cast<const char*>(magic_buf.get());
   uint32_t const version = m_file->read32();
   uint32_t const byte_length = m_file->read32();
   uint32_t const feature_table_json_byte_length = m_file->read32();
@@ -24,18 +24,17 @@ auto b3dm::decoder::read_header() -> bool
   uint32_t const batch_table_json_byte_length = m_file->read32();
   uint32_t const batch_table_binary_byte_length = m_file->read32();
 
-  if (magic != "b3dm") {
-    throw std::runtime_error("header magic number invalid");
+  if (magic != b3dm_magic) {
+    return false;
   }
 
-  file_header header{};
-
+  header header;
   header.magic = magic;
   header.version = version;
   header.byte_length = byte_length;
-  header.feature_table_binary_byte_length = feature_table_json_byte_length;
+  header.feature_table_json_byte_length = feature_table_json_byte_length;
   header.feature_table_binary_byte_length = feature_table_binary_byte_length;
-  header.feature_table_json_byte_length = batch_table_json_byte_length;
+  header.batch_table_json_byte_length = batch_table_json_byte_length;
   header.batch_table_binary_byte_length = batch_table_binary_byte_length;
 
   m_header = header;
@@ -44,7 +43,7 @@ auto b3dm::decoder::read_header() -> bool
 
 auto b3dm::decoder::read_body() -> bool
 {
-  file_body const body{};
+  body const body;
 
   m_body = body;
   return true;

@@ -13,10 +13,11 @@
 namespace b3dm
 {
 
-class stream
+class B3DM_CPP_EXPORT stream
 {
 public:
   virtual ~stream() = default;
+
   // Returns true if we can read/write bytes from/into the stream
   virtual auto ok() const -> bool = 0;
 
@@ -28,7 +29,7 @@ public:
 
   // Returns the next byte in the stream or 0 if ok() = false
   virtual auto read8() -> uint8_t = 0;
-  virtual auto read(char* buf, uint32_t size) -> bool = 0;
+  virtual auto read(uint8_t * buf, uint32_t size) -> bool = 0;
 
   // Writes one byte in the stream (or do nothing if ok() = false)
   virtual void write8(uint8_t value) = 0;

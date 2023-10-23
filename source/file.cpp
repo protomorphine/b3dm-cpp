@@ -25,9 +25,9 @@ auto b3dm::file_stream::read8() -> uint8_t
   return 0;
 }
 
-auto b3dm::file_stream::read(char* buf, uint32_t size) -> bool
+auto b3dm::file_stream::read(uint8_t* buf, uint32_t size) -> bool
 {
-  m_file->read(buf, size);
+  m_file->read(reinterpret_cast<char*>(buf), size);
   return m_file->gcount() == size;
 }
 
@@ -49,12 +49,12 @@ auto b3dm::file_stream::read32() -> uint32_t
   uint8_t const byte4 = read8();
 
   if (ok()) {
-    return ((byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4);
+    return ((byte4 << 24) | (byte3 << 16) | (byte2 << 8) | byte1);
   }
 
   return 0;
 }
-void b3dm::file_stream::write8(uint8_t value) {}
+auto b3dm::file_stream::write8(uint8_t value) -> void {}
 
 auto b3dm::file_stream::write(const uint8_t* buf, uint32_t size) -> bool
 {
