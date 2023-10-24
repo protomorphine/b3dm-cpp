@@ -1,6 +1,7 @@
 # b3dm-cpp
 
-Library to provide API to work with b3dm Cesium files.
+Provides API to work with `b3dm` Cesium tiles format.   
+More about `.b3dm` files [here](https://github.com/CesiumGS/3d-tiles).
 
 # Building and installing
 
