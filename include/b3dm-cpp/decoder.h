@@ -31,6 +31,13 @@ struct header
 
 struct body
 {
+  std::string feature_table_json;
+  uint8_t* feature_table;
+
+  std::string batch_table_json;
+  uint8_t* batch_table;
+
+  uint8_t* gltf_data;
 };
 
 class B3DM_CPP_EXPORT decoder
