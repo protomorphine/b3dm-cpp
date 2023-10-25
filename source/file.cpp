@@ -15,8 +15,8 @@ b3dm::file_stream::file_stream(std::ifstream* stream)
 auto b3dm::file_stream::read8() -> uint8_t
 {
   if (m_file->good()) {
-    auto val = std::make_unique<char>(sizeof(uint8_t) + 1);
-    m_file->read(val.get(), sizeof(uint8_t));
+    auto val = std::make_unique<char>();
+    m_file->read(val.get(), sizeof(char));
 
     return *val;
   }
@@ -25,13 +25,30 @@ auto b3dm::file_stream::read8() -> uint8_t
   return 0;
 }
 
-auto b3dm::file_stream::read(uint8_t* buf, uint32_t size) -> bool
+auto b3dm::file_stream::read_string(size_t size, std::string& out_string) -> bool
 {
-  m_file->read(reinterpret_cast<char*>(buf), size);
-  return m_file->gcount() == size;
+  if (m_file->good()) {
+    auto buffer = std::make_unique<char[]>(size + 1);
+    m_file->read(buffer.get(), size);
+
+    out_string = buffer.get();
+  }
+
+  m_ok = m_file->good();
+  return m_ok;
 }
 
-void b3dm::file_stream::seek(size_t abs_pos)
+auto b3dm::file_stream::read(uint8_t* buf, uint32_t size) -> bool
+{
+  if (m_file->good()) {
+    m_file->read(reinterpret_cast<char*>(buf), size);
+  }
+
+  m_ok = m_file->good();
+  return m_ok && m_file->gcount() == size;
+}
+
+auto b3dm::file_stream::seek(size_t abs_pos) -> void
 {
   m_file->seekg(abs_pos);
 }

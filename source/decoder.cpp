@@ -13,34 +13,28 @@ b3dm::decoder::decoder(file_stream* file_interface)
 
 auto b3dm::decoder::read_header() -> bool
 {
-  auto magic_buf = std::make_unique<uint8_t[]>(4 + 1);
-  m_file->read(magic_buf.get(), 4);
-
-  std::string const magic = reinterpret_cast<const char*>(magic_buf.get());
-  uint32_t const version = m_file->read32();
-  uint32_t const byte_length = m_file->read32();
-  uint32_t const feature_table_json_byte_length = m_file->read32();
-  uint32_t const feature_table_binary_byte_length = m_file->read32();
-  uint32_t const batch_table_json_byte_length = m_file->read32();
-  uint32_t const batch_table_binary_byte_length = m_file->read32();
+  std::string magic;
+  if (!m_file->read_string(4, magic)) {
+    return false;
+  }
 
   if (magic != b3dm_magic) {
     return false;
   }
 
-  header header;
-  header.magic = magic;
-  header.version = version;
-  header.byte_length = byte_length;
-  header.feature_table_json_byte_length = feature_table_json_byte_length;
-  header.feature_table_binary_byte_length = feature_table_binary_byte_length;
-  header.batch_table_json_byte_length = batch_table_json_byte_length;
-  header.batch_table_binary_byte_length = batch_table_binary_byte_length;
+  m_header = header {magic,
+                     m_file->read32(),
+                     m_file->read32(),
+                     m_file->read32(),
+                     m_file->read32(),
+                     m_file->read32(),
+                     m_file->read32()};
 
-  m_header = header;
   return m_file->ok();
 }
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-avoid-c-arrays"
 auto b3dm::decoder::read_body() -> bool
 {
   if (!m_file->ok()) {
@@ -49,48 +43,44 @@ auto b3dm::decoder::read_body() -> bool
 
   size_t const feature_table_json_length =
       m_header.feature_table_json_byte_length;
+
   size_t const feature_table_binary_length =
       m_header.feature_table_binary_byte_length;
+
   size_t const batch_table_json_length = m_header.batch_table_json_byte_length;
+
   size_t const batch_table_binary_length =
       m_header.batch_table_binary_byte_length;
 
-  auto feature_table_json =
-      std::make_unique<uint8_t[]>(feature_table_json_length + 1);
+  size_t const gltf_binary_length = (m_header.byte_length - b3dm_header_length)
+      - feature_table_json_length - feature_table_binary_length
+      - batch_table_json_length - batch_table_binary_length;
 
+  std::string feature_table_json;
+  m_file->read_string(feature_table_json_length, feature_table_json);
   auto feature_table_binary =
-      std::make_unique<uint8_t[]>(feature_table_binary_length + 1);
+      std::make_unique<uint8_t[]>(feature_table_binary_length);
+  m_file->read(feature_table_binary.get(), feature_table_binary_length);
 
-  auto batch_table_json =
-      std::make_unique<uint8_t[]>(batch_table_json_length + 1);
-
+  std::string batch_table_json;
+  m_file->read_string(batch_table_json_length, batch_table_json);
   auto batch_table_binary =
-      std::make_unique<uint8_t[]>(batch_table_binary_length + 1);
+      std::make_unique<uint8_t[]>(batch_table_binary_length);
+  m_file->read(batch_table_binary.get(), batch_table_binary_length);
 
-  if (!m_file->read(feature_table_json.get(), feature_table_json_length)) {
+  auto gltf_binary = std::make_unique<uint8_t[]>(gltf_binary_length);
+  m_file->read(gltf_binary.get(), gltf_binary_length);
+
+  if (!m_file->ok()) {
     return false;
   }
 
-  if (!m_file->read(feature_table_binary.get(), feature_table_binary_length)) {
-    return false;
-  }
-
-  if (!m_file->read(batch_table_json.get(), batch_table_json_length)) {
-    return false;
-  }
-
-  if (!m_file->read(batch_table_binary.get(), batch_table_binary_length)) {
-    return false;
-  }
-
-  // body const body {};
-
-  m_body = body {
-      reinterpret_cast<const char*>(feature_table_json.get()),
-      feature_table_binary.get(),
-      reinterpret_cast<const char*>(batch_table_json.get()),
-      batch_table_json.get()
-  };
+  m_body = body {feature_table_json,
+                 feature_table_binary.get(),
+                 batch_table_json,
+                 batch_table_binary.get(),
+                 gltf_binary.get()};
 
   return m_file->ok();
 }
+#pragma clang diagnostic pop

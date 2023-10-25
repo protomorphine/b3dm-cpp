@@ -34,6 +34,8 @@ public:
   // Returns the next 4 bytes from stream or 0 if ok() = false
   auto read32() -> uint32_t;
 
+  auto read_string(size_t size, std::string& out_string) -> bool;
+
   // Reads 'size' bytes in 'buf'
   auto read(uint8_t * buf, uint32_t size) -> bool override;
 

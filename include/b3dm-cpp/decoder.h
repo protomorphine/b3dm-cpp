@@ -17,6 +17,7 @@ namespace b3dm
 {
 
 constexpr std::string_view b3dm_magic = "b3dm";
+constexpr size_t b3dm_header_length = 28;
 
 struct header
 {
@@ -46,9 +47,11 @@ public:
   explicit decoder(file_stream* file_interface);
 
   auto get_header() -> const header& { return m_header; }
+
   auto get_body() -> const body& { return m_body; }
 
   auto read_header() -> bool;
+
   auto read_body() -> bool;
 
 private:
