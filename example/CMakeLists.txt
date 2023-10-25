@@ -21,5 +21,6 @@ function(add_example NAME)
 endfunction()
 
 add_example(read_header_example)
+add_example(read_body_example)
 
 add_folders(Example)

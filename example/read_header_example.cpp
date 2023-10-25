@@ -5,7 +5,7 @@
 
 auto main() -> int
 {
-  std::ifstream basic_stream("example.b3dm", std::ios::binary);
+  std::ifstream basic_stream("example.b3dm", std::fstream::binary);
   b3dm::file_stream file(&basic_stream);
 
   b3dm::decoder decoder(&file);
