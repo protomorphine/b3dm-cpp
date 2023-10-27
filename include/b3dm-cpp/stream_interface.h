@@ -13,27 +13,31 @@
 namespace b3dm
 {
 
+/// @brief read-only stream interface.
 class B3DM_CPP_EXPORT stream
 {
 public:
-  virtual ~stream() = default;
-
-  // Returns true if we can read/write bytes from/into the stream
+  /// @brief is file_stream in ok state.
+  /// @return true - if file_stream in ok state, otherwise - false.
   virtual auto ok() const -> bool = 0;
 
-  // Current position in the stream
+  /// @brief gets current stream position.
+  /// @return ifstream position.
   virtual auto tell() -> size_t = 0;
 
-  // Jump to the given position in the stream
+  /// @brief goes to position.
+  /// @param[in] abs_pos position to set.
   virtual void seek(size_t abs_pos) = 0;
 
-  // Returns the next byte in the stream or 0 if ok() = false
+  /// @brief reads 1 byte from stream.
+  /// @return byte.
   virtual auto read8() -> uint8_t = 0;
-  virtual auto read(uint8_t * buf, uint32_t size) -> bool = 0;
 
-  // Writes one byte in the stream (or do nothing if ok() = false)
-  virtual void write8(uint8_t value) = 0;
-  virtual auto write(const uint8_t* buf, uint32_t size) -> bool = 0;
+  /// @brief reads binary data.
+  /// @param[out] buf buffer with data.
+  /// @param[in] size length of data.
+  /// @return true - if read succeed, otherwise - false.
+  virtual auto read(uint8_t * buf, uint32_t size) -> bool = 0;
 };
 
 }  // namespace b3dm

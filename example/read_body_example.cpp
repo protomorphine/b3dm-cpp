@@ -14,14 +14,14 @@ auto main() -> int
   b3dm::decoder decoder(&file);
 
   if (decoder.read_header() && decoder.read_body()) {
-    auto const body = decoder.get_body();
+    const auto *body = decoder.get_body();
 
-    std::cout << "b3dm.body.feature_table_json = " + body.feature_table_json << '\n';
-    std::cout << "b3dm.body.batch_table_json = " + body.batch_table_json << '\n';
+    std::cout << "b3dm.body.feature_table_json = " + body->feature_table_json << '\n';
+    std::cout << "b3dm.body.batch_table_json = " + body->batch_table_json << '\n';
 
     return 0;
   }
 
   std::cout << "could not read b3dm" << '\n';
-  return 1;
+  return 0;
 }

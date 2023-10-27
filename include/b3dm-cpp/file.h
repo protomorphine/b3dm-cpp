@@ -12,36 +12,49 @@
 namespace b3dm
 {
 
+/// @brief abstraction wrapper for ifstream
+/// @see ifstream
 class B3DM_CPP_EXPORT file_stream : public stream
 {
 public:
-  ~file_stream() override = default;
-
   explicit file_stream(std::ifstream* stream);
 
-  // Returns true if we can read/write bytes from/into the stream
+  /// @brief is file_stream in ok state.
+  /// @return true - if file_stream in ok state, otherwise - false.
   auto ok() const -> bool override { return m_ok; }
 
-  // Current position in the stream
-  auto tell() -> size_t override;
+  /// @brief gets current stream position.
+  /// @return ifstream position.
+  auto tell() -> size_t override { return m_file->tellg(); }
 
-  // Jump to the given position in the stream
-  void seek(size_t abs_pos) override;
+  /// @brief goes to position.
+  /// @param[in] abs_pos position to set.
+  void seek(size_t abs_pos) override { m_file->seekg(abs_pos); }
 
-  // Returns the next byte in the stream or 0 if ok() = false
+  /// @brief reads 1 byte from stream.
+  /// @return byte.
   auto read8() -> uint8_t override;
 
-  // Returns the next 4 bytes from stream or 0 if ok() = false
-  auto read32() -> uint32_t;
-
-  auto read_string(size_t size, std::string& out_string) -> bool;
-
-  // Reads 'size' bytes in 'buf'
+  /// @brief reads binary data.
+  /// @param[out] buf buffer with data.
+  /// @param[in] size length of data.
+  /// @return true - if read succeed, otherwise - false.
   auto read(uint8_t * buf, uint32_t size) -> bool override;
 
-  // Writes one byte in the stream (or do nothing if ok() = false)
-  void write8(uint8_t value) override;
-  auto write(const uint8_t* buf, uint32_t size) -> bool override;
+  /// @brief read 4 bytes, and concatenate them in int32.
+  /// @return int32.
+  auto read32() -> uint32_t;
+
+  /// @brief reads string from stream.
+  /// @param[in] size size of string.
+  /// @param[out] out_string read string.
+  /// @return true - if read succeed, otherwise - false.
+  auto read_string(size_t size, std::string& out_string) -> bool;
+
+  /// @brief reads binary data.
+  /// @param[in] size length of data.
+  /// @return unique pointer to data.
+  auto read(size_t size) -> std::unique_ptr<uint8_t[]>;
 
 private:
   std::ifstream* m_file;

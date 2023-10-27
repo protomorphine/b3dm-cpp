@@ -33,24 +33,16 @@ auto b3dm::decoder::read_header() -> bool
   return m_file->ok();
 }
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "cppcoreguidelines-avoid-c-arrays"
 auto b3dm::decoder::read_body() -> bool
 {
   if (!m_file->ok()) {
     return false;
   }
 
-  size_t const feature_table_json_length =
-      m_header.feature_table_json_byte_length;
-
-  size_t const feature_table_binary_length =
-      m_header.feature_table_binary_byte_length;
-
+  size_t const feature_table_json_length = m_header.feature_table_json_byte_length;
+  size_t const feature_table_binary_length = m_header.feature_table_binary_byte_length;
   size_t const batch_table_json_length = m_header.batch_table_json_byte_length;
-
-  size_t const batch_table_binary_length =
-      m_header.batch_table_binary_byte_length;
+  size_t const batch_table_binary_length = m_header.batch_table_binary_byte_length;
 
   size_t const gltf_binary_length = (m_header.byte_length - b3dm_header_length)
       - feature_table_json_length - feature_table_binary_length
@@ -58,29 +50,26 @@ auto b3dm::decoder::read_body() -> bool
 
   std::string feature_table_json;
   m_file->read_string(feature_table_json_length, feature_table_json);
-  auto feature_table_binary =
-      std::make_unique<uint8_t[]>(feature_table_binary_length);
-  m_file->read(feature_table_binary.get(), feature_table_binary_length);
+  auto feature_table_binary = m_file->read(feature_table_binary_length);
 
   std::string batch_table_json;
   m_file->read_string(batch_table_json_length, batch_table_json);
-  auto batch_table_binary =
-      std::make_unique<uint8_t[]>(batch_table_binary_length);
-  m_file->read(batch_table_binary.get(), batch_table_binary_length);
+  auto batch_table_binary = m_file->read(batch_table_binary_length);
 
-  auto gltf_binary = std::make_unique<uint8_t[]>(gltf_binary_length);
-  m_file->read(gltf_binary.get(), gltf_binary_length);
+  auto gltf_binary = m_file->read(gltf_binary_length);
 
   if (!m_file->ok()) {
     return false;
   }
 
-  m_body = body {feature_table_json,
-                 feature_table_binary.get(),
-                 batch_table_json,
-                 batch_table_binary.get(),
-                 gltf_binary.get()};
+  body body{};
+  body.feature_table_json = feature_table_json;
+  body.feature_table = std::move(feature_table_binary);
+  body.batch_table_json = batch_table_json;
+  body.batch_table = std::move(batch_table_binary);
+  body.gltf_data = std::move(gltf_binary);
+
+  m_body = std::move(body);
 
   return m_file->ok();
 }
-#pragma clang diagnostic pop
