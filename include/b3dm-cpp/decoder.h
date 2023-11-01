@@ -39,12 +39,12 @@ struct header
 struct body
 {
   std::string feature_table_json;
-  std::unique_ptr<char[]> feature_table;
+  std::unique_ptr<char_buffer> feature_table;
 
   std::string batch_table_json;
-  std::unique_ptr<char[]> batch_table;
+  std::unique_ptr<char_buffer> batch_table;
 
-  std::unique_ptr<char[]> gltf_data;
+  std::unique_ptr<char_buffer> gltf_data;
 };
 
 /// @brief b3dm decoder. Allows to read data from b3dm file.

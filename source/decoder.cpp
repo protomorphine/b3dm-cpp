@@ -22,13 +22,15 @@ auto b3dm::decoder::read_header() -> bool
     return false;
   }
 
-  m_header = header {magic,
-                     m_file->read32(),
-                     m_file->read32(),
-                     m_file->read32(),
-                     m_file->read32(),
-                     m_file->read32(),
-                     m_file->read32()};
+  m_header = header {
+      .magic = magic,
+      .version = m_file->read32(),
+      .byte_length = m_file->read32(),
+      .feature_table_json_byte_length = m_file->read32(),
+      .feature_table_binary_byte_length = m_file->read32(),
+      .batch_table_json_byte_length = m_file->read32(),
+      .batch_table_binary_byte_length = m_file->read32()
+  };
 
   return m_file->ok();
 }
@@ -40,7 +42,7 @@ auto b3dm::decoder::read_body() -> bool
   }
 
   size_t const feature_table_json_length = m_header.feature_table_json_byte_length;
-  size_t const feature_table_binary_length = m_header.feature_table_binary_byte_length;
+  size_t const feature_table_binary_length =m_header.feature_table_binary_byte_length;
   size_t const batch_table_json_length = m_header.batch_table_json_byte_length;
   size_t const batch_table_binary_length = m_header.batch_table_binary_byte_length;
 
@@ -62,14 +64,13 @@ auto b3dm::decoder::read_body() -> bool
     return false;
   }
 
-  body body{};
-  body.feature_table_json = feature_table_json;
-  body.feature_table = std::move(feature_table_binary);
-  body.batch_table_json = batch_table_json;
-  body.batch_table = std::move(batch_table_binary);
-  body.gltf_data = std::move(gltf_binary);
-
-  m_body = std::move(body);
+  m_body = {
+    .feature_table_json = feature_table_json,
+    .feature_table = std::move(feature_table_binary),
+    .batch_table_json = batch_table_json,
+    .batch_table = std::move(batch_table_binary),
+    .gltf_data = std::move(gltf_binary)
+  };
 
   return m_file->ok();
 }

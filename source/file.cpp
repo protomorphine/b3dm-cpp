@@ -3,6 +3,7 @@
 //
 
 #include <memory>
+#include <vector>
 
 #include "b3dm-cpp/file.h"
 
@@ -36,8 +37,8 @@ auto b3dm::file_stream::read_string(size_t size, std::string& out_string)
     -> bool
 {
   if (m_file->good()) {
-    auto buffer = std::make_unique<char[]>(size + 1);
-    m_file->read(buffer.get(), size);
+    auto buffer = std::make_unique<char_buffer>(size + 1);
+    read(buffer.get(), size);
 
     out_string = buffer.get();
   }
@@ -49,7 +50,7 @@ auto b3dm::file_stream::read_string(size_t size, std::string& out_string)
 auto b3dm::file_stream::read(char* buf, size_t size) -> bool
 {
   if (m_file->good()) {
-    m_file->read(buf, size);
+    m_file->read(buf, static_cast<std::streamoff>(size));
   }
 
   m_ok = m_file->good();
@@ -58,21 +59,26 @@ auto b3dm::file_stream::read(char* buf, size_t size) -> bool
 
 auto b3dm::file_stream::read32() -> int
 {
-  unsigned char const byte1 = read8();
-  unsigned char const byte2 = read8();
-  unsigned char const byte3 = read8();
-  unsigned char const byte4 = read8();
+  uint8_t const byte2_shift = 8;
+  uint8_t const byte3_shift = 16;
+  uint8_t const byte4_shift = 24;
+
+  uint8_t const byte1 = read8();
+  uint8_t const byte2 = read8();
+  uint8_t const byte3 = read8();
+  uint8_t const byte4 = read8();
 
   if (ok()) {
-    return ((byte4 << 24U) | (byte3 << 16U) | (byte2 << 8U) | byte1);
+    return ((byte4 << byte4_shift) | (byte3 << byte3_shift)
+            | (byte2 << byte2_shift) | byte1);
   }
 
   return 0;
 }
 
-auto b3dm::file_stream::read(size_t size) -> std::unique_ptr<char[]>
+auto b3dm::file_stream::read(size_t size) -> std::unique_ptr<char_buffer>
 {
-  auto buffer = std::make_unique<char[]>(size);
+  auto buffer = std::make_unique<char_buffer>(size);
   read(buffer.get(), size);
   return buffer;
 }

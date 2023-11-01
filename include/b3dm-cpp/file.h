@@ -12,6 +12,8 @@
 namespace b3dm
 {
 
+using char_buffer = char[]; // NOLINT(*-avoid-c-arrays)
+
 /// @brief abstraction wrapper for ifstream
 /// @see ifstream
 class B3DM_CPP_EXPORT file_stream : public stream
@@ -30,7 +32,9 @@ public:
 
   /// @brief goes to position.
   /// @param[in] abs_pos position to set.
-  auto seek(size_t abs_pos) -> void override { m_file->seekg(abs_pos); }
+  auto seek(size_t abs_pos) -> void override {
+    m_file->seekg(static_cast<std::streamoff>(abs_pos));
+  }
 
   /// @brief reads 1 byte from stream.
   /// @return byte.
@@ -55,7 +59,7 @@ public:
   /// @brief reads binary data.
   /// @param[in] size length of data.
   /// @return unique pointer to data.
-  auto read(size_t size) -> std::unique_ptr<char[]> override;
+  auto read(size_t size) -> std::unique_ptr<char_buffer> override;
 
 private:
   std::unique_ptr<std::ifstream> m_file;
