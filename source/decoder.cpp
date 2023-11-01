@@ -6,8 +6,8 @@
 
 #include "b3dm-cpp/decoder.h"
 
-b3dm::decoder::decoder(file_stream* file_interface)
-    : m_file(file_interface)
+b3dm::decoder::decoder(std::unique_ptr<stream> file_interface)
+    : m_file(std::move(file_interface))
 {
 }
 

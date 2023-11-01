@@ -22,5 +22,6 @@ endfunction()
 
 add_example(read_header_example)
 add_example(read_body_example)
+add_example(extract_glb_example)
 
 add_folders(Example)

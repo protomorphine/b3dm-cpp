@@ -27,31 +27,31 @@ constexpr size_t b3dm_header_length = 28;
 struct header
 {
   std::string magic;
-  uint32_t version;
-  uint32_t byte_length;
-  uint32_t feature_table_json_byte_length;
-  uint32_t feature_table_binary_byte_length;
-  uint32_t batch_table_json_byte_length;
-  uint32_t batch_table_binary_byte_length;
+  int version;
+  int byte_length;
+  int feature_table_json_byte_length;
+  int feature_table_binary_byte_length;
+  int batch_table_json_byte_length;
+  int batch_table_binary_byte_length;
 };
 
 /// @brief b3dm body.
 struct body
 {
   std::string feature_table_json;
-  std::unique_ptr<uint8_t[]> feature_table;
+  std::unique_ptr<char[]> feature_table;
 
   std::string batch_table_json;
-  std::unique_ptr<uint8_t[]> batch_table;
+  std::unique_ptr<char[]> batch_table;
 
-  std::unique_ptr<uint8_t[]> gltf_data;
+  std::unique_ptr<char[]> gltf_data;
 };
 
 /// @brief b3dm decoder. Allows to read data from b3dm file.
 class B3DM_CPP_EXPORT decoder
 {
 public:
-  explicit decoder(file_stream* file_interface);
+  explicit decoder(std::unique_ptr<stream> file_interface);
 
   /// @brief Getter for b3dm header.
   /// @return Header.
@@ -70,7 +70,7 @@ public:
   auto read_body() -> bool;
 
 private:
-  file_stream* m_file;
+  std::unique_ptr<stream> m_file;
   header m_header;
   body m_body;
 };

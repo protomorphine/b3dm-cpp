@@ -8,10 +8,9 @@
 
 auto main() -> int
 {
-  std::ifstream basic_stream("example.b3dm", std::fstream::binary);
-  b3dm::file_stream file(&basic_stream);
-
-  b3dm::decoder decoder(&file);
+  auto raw_file = std::make_unique<std::ifstream>("example.b3dm", std::ios::binary);
+  auto file = std::make_unique<b3dm::file_stream>(std::move(raw_file));
+  b3dm::decoder decoder(std::move(file));
 
   if (decoder.read_header() && decoder.read_body()) {
     const auto *body = decoder.get_body();

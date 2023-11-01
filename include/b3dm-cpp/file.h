@@ -17,7 +17,8 @@ namespace b3dm
 class B3DM_CPP_EXPORT file_stream : public stream
 {
 public:
-  explicit file_stream(std::ifstream* stream);
+  explicit file_stream(std::unique_ptr<std::ifstream> stream);
+  explicit file_stream(std::string_view file_name);
 
   /// @brief is file_stream in ok state.
   /// @return true - if file_stream in ok state, otherwise - false.
@@ -29,35 +30,35 @@ public:
 
   /// @brief goes to position.
   /// @param[in] abs_pos position to set.
-  void seek(size_t abs_pos) override { m_file->seekg(abs_pos); }
+  auto seek(size_t abs_pos) -> void override { m_file->seekg(abs_pos); }
 
   /// @brief reads 1 byte from stream.
   /// @return byte.
-  auto read8() -> uint8_t override;
+  auto read8() -> unsigned char override;
 
   /// @brief reads binary data.
   /// @param[out] buf buffer with data.
   /// @param[in] size length of data.
   /// @return true - if read succeed, otherwise - false.
-  auto read(uint8_t * buf, uint32_t size) -> bool override;
+  auto read(char* buf, size_t size) -> bool override;
 
   /// @brief read 4 bytes, and concatenate them in int32.
   /// @return int32.
-  auto read32() -> uint32_t;
+  auto read32() -> int override;
 
   /// @brief reads string from stream.
   /// @param[in] size size of string.
   /// @param[out] out_string read string.
   /// @return true - if read succeed, otherwise - false.
-  auto read_string(size_t size, std::string& out_string) -> bool;
+  auto read_string(size_t size, std::string& out_string) -> bool override;
 
   /// @brief reads binary data.
   /// @param[in] size length of data.
   /// @return unique pointer to data.
-  auto read(size_t size) -> std::unique_ptr<uint8_t[]>;
+  auto read(size_t size) -> std::unique_ptr<char[]> override;
 
 private:
-  std::ifstream* m_file;
+  std::unique_ptr<std::ifstream> m_file;
   bool m_ok;
 };
 
