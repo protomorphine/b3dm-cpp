@@ -1,5 +1,5 @@
 # b3dm-cpp
-
+[![Continuous Integration](https://github.com/protomorphine/b3dm-cpp/actions/workflows/ci.yml/badge.svg)](https://github.com/protomorphine/b3dm-cpp/actions/workflows/ci.yml)   
 Provides API to work with `b3dm` Cesium tiles format.   
 More about `.b3dm` files [here](https://github.com/CesiumGS/3d-tiles).
 
