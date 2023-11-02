@@ -6,10 +6,10 @@
 auto main() -> int
 {
   auto raw_file = std::make_unique<std::ifstream>("example.b3dm", std::ios::binary);
-  auto file = std::make_unique<b3dm::file_stream>(std::move(raw_file));
+  auto file     = std::make_unique<b3dm::file_stream>(std::move(raw_file));
 
-  if (b3dm::decoder decoder(std::move(file)); decoder.read_header()) {
-    const auto* const header = decoder.get_header();
+  if(b3dm::decoder decoder(std::move(file)); decoder.read_header()) {
+    const b3dm::header* header = decoder.get_header();
 
     std::cout << "b3dm.header.magic = " << header->magic << '\n';
     std::cout << "b3dm.header.version = " << header->version << '\n';

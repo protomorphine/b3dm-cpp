@@ -2,31 +2,25 @@
 // Created by Daniil on 9/25/2023.
 //
 
-#ifndef B3DM_CPP_STREAM_H_ // NOLINT(*-identifier-naming)
+#ifndef B3DM_CPP_STREAM_H_  // NOLINT(*-identifier-naming)
 #define B3DM_CPP_STREAM_H_
 
 #include <cstddef>
 #include <cstdint>
+#include <vector>
 
 #include <b3dm-cpp/b3dm-cpp_export.hpp>
 
 namespace b3dm
 {
 
-using char_buffer = char[];
+using char_buffer = std::vector<char>;
 
 /// @brief read-only stream interface.
-class B3DM_CPP_EXPORT stream
+class B3DM_CPP_EXPORT stream  // NOLINT(*-special-member-functions)
 {
 public:
   virtual ~stream() = default;
-
-  stream() = default;
-  stream(stream&) = default;
-  stream(stream&&) = default;
-
-  auto operator=(const stream&) -> stream& = default;
-  auto operator=(stream&&) -> stream& = default;
 
   /// @brief is file_stream in ok state.
   /// @return true - if file_stream in ok state, otherwise - false.

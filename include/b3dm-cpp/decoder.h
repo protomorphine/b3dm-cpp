@@ -2,7 +2,7 @@
 // Created by Daniil on 9/25/2023.
 //
 
-#ifndef B3DM_CPP_SOURCE_DECODER_H_ // NOLINT(*-identifier-naming)
+#ifndef B3DM_CPP_SOURCE_DECODER_H_  // NOLINT(*-identifier-naming)
 #define B3DM_CPP_SOURCE_DECODER_H_
 
 #include <cstdint>
@@ -69,7 +69,7 @@ public:
   auto read_body() -> bool;
 
 private:
-  std::unique_ptr<stream> m_file;
+  std::unique_ptr<stream> m_stream;
   header m_header;
   body m_body;
 };

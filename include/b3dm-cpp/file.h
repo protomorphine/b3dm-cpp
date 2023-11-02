@@ -2,7 +2,7 @@
 // Created by D.Zaycev on 26.09.2023.
 //
 
-#ifndef B3DM_CPP_SOURCE_FILESTREAM_H_ // NOLINT(*-identifier-naming)
+#ifndef B3DM_CPP_SOURCE_FILESTREAM_H_  // NOLINT(*-identifier-naming)
 #define B3DM_CPP_SOURCE_FILESTREAM_H_
 
 #include <fstream>
@@ -30,9 +30,7 @@ public:
 
   /// @brief goes to position.
   /// @param[in] abs_pos position to set.
-  auto seek(size_t abs_pos) -> void override {
-    m_file->seekg(static_cast<std::streamoff>(abs_pos));
-  }
+  auto seek(size_t abs_pos) -> void override { m_file->seekg(static_cast<std::streamoff>(abs_pos)); }
 
   /// @brief reads 1 byte from stream.
   /// @return byte.
