@@ -41,10 +41,10 @@ auto b3dm::decoder::read_body() -> bool
     return false;
   }
 
-  size_t const feature_table_json_length = m_header.feature_table_json_byte_length;
-  size_t const feature_table_binary_length =m_header.feature_table_binary_byte_length;
-  size_t const batch_table_json_length = m_header.batch_table_json_byte_length;
-  size_t const batch_table_binary_length = m_header.batch_table_binary_byte_length;
+  size_t const feature_table_json_length   = m_header.feature_table_json_byte_length;
+  size_t const feature_table_binary_length = m_header.feature_table_binary_byte_length;
+  size_t const batch_table_json_length     = m_header.batch_table_json_byte_length;
+  size_t const batch_table_binary_length   = m_header.batch_table_binary_byte_length;
 
   size_t const gltf_binary_length = (m_header.byte_length - b3dm_header_length)
       - feature_table_json_length - feature_table_binary_length

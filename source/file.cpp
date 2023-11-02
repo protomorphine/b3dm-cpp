@@ -9,14 +9,11 @@
 
 b3dm::file_stream::file_stream(std::unique_ptr<std::ifstream> stream)
     : m_file(std::move(stream))
-    , m_ok(true)
 {
 }
 
 b3dm::file_stream::file_stream(std::string_view file_name)
-    : m_file(
-        std::make_unique<std::ifstream>(file_name.data(), std::ios::binary))
-    , m_ok(true)
+    : m_file(std::make_unique<std::ifstream>(file_name.data(), std::ios::binary))
 {
 }
 
@@ -59,9 +56,9 @@ auto b3dm::file_stream::read(char* buf, size_t size) -> bool
 
 auto b3dm::file_stream::read32() -> int
 {
-  uint8_t const byte2_shift = 8;
-  uint8_t const byte3_shift = 16;
-  uint8_t const byte4_shift = 24;
+  uint8_t constexpr byte2_shift = 8;
+  uint8_t constexpr byte3_shift = 16;
+  uint8_t constexpr byte4_shift = 24;
 
   uint8_t const byte1 = read8();
   uint8_t const byte2 = read8();
@@ -69,8 +66,7 @@ auto b3dm::file_stream::read32() -> int
   uint8_t const byte4 = read8();
 
   if (ok()) {
-    return ((byte4 << byte4_shift) | (byte3 << byte3_shift)
-            | (byte2 << byte2_shift) | byte1);
+    return ((byte4 << byte4_shift) | (byte3 << byte3_shift) | (byte2 << byte2_shift) | byte1); // NOLINT(*-signed-bitwise)
   }
 
   return 0;

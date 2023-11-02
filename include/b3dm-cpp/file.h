@@ -2,7 +2,7 @@
 // Created by D.Zaycev on 26.09.2023.
 //
 
-#ifndef B3DM_CPP_SOURCE_FILESTREAM_H_
+#ifndef B3DM_CPP_SOURCE_FILESTREAM_H_ // NOLINT(*-identifier-naming)
 #define B3DM_CPP_SOURCE_FILESTREAM_H_
 
 #include <fstream>
@@ -12,9 +12,7 @@
 namespace b3dm
 {
 
-using char_buffer = char[]; // NOLINT(*-avoid-c-arrays)
-
-/// @brief abstraction wrapper for ifstream
+/// @brief wrapper for ifstream
 /// @see ifstream
 class B3DM_CPP_EXPORT file_stream : public stream
 {
@@ -63,7 +61,7 @@ public:
 
 private:
   std::unique_ptr<std::ifstream> m_file;
-  bool m_ok;
+  bool m_ok = true;
 };
 
 }  // namespace b3dm

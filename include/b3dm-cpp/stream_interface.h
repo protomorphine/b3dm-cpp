@@ -2,7 +2,7 @@
 // Created by Daniil on 9/25/2023.
 //
 
-#ifndef B3DM_CPP_STREAM_H_
+#ifndef B3DM_CPP_STREAM_H_ // NOLINT(*-identifier-naming)
 #define B3DM_CPP_STREAM_H_
 
 #include <cstddef>
@@ -13,11 +13,20 @@
 namespace b3dm
 {
 
+using char_buffer = char[];
+
 /// @brief read-only stream interface.
 class B3DM_CPP_EXPORT stream
 {
 public:
   virtual ~stream() = default;
+
+  stream() = default;
+  stream(stream&) = default;
+  stream(stream&&) = default;
+
+  auto operator=(const stream&) -> stream& = default;
+  auto operator=(stream&&) -> stream& = default;
 
   /// @brief is file_stream in ok state.
   /// @return true - if file_stream in ok state, otherwise - false.
@@ -54,7 +63,7 @@ public:
   /// @brief reads binary data.
   /// @param[in] size length of data.
   /// @return unique pointer to data.
-  virtual auto read(size_t size) -> std::unique_ptr<char[]> = 0;
+  virtual auto read(size_t size) -> std::unique_ptr<char_buffer> = 0;
 };
 
 }  // namespace b3dm

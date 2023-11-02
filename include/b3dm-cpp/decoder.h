@@ -2,7 +2,7 @@
 // Created by Daniil on 9/25/2023.
 //
 
-#ifndef B3DM_CPP_SOURCE_DECODER_H_
+#ifndef B3DM_CPP_SOURCE_DECODER_H_ // NOLINT(*-identifier-naming)
 #define B3DM_CPP_SOURCE_DECODER_H_
 
 #include <cstdint>
@@ -11,7 +11,6 @@
 
 #include <b3dm-cpp/b3dm-cpp_export.hpp>
 
-#include "file.h"
 #include "stream_interface.h"
 
 namespace b3dm
@@ -55,11 +54,11 @@ public:
 
   /// @brief Getter for b3dm header.
   /// @return Header.
-  auto get_header() -> const header* { return &m_header; }
+  auto get_header() const -> const header* { return &m_header; }
 
   /// @brief Getter for b3dm body.
   /// @return Body.
-  auto get_body() -> const body* { return &m_body; }
+  auto get_body() const -> const body* { return &m_body; }
 
   /// @brief Reads header from file_stream.
   /// @return true - if read succeed, otherwise - false.
