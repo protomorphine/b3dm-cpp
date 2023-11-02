@@ -30,8 +30,7 @@ auto b3dm::file_stream::read8() -> uint8_t
   return 0;
 }
 
-auto b3dm::file_stream::read_string(size_t size, std::string& out_string)
-    -> bool
+auto b3dm::file_stream::read_string(size_t size, std::string& out_string) -> bool
 {
   if (m_file->good()) {
     auto buffer = std::make_unique<char_buffer>(size + 1);
@@ -66,7 +65,8 @@ auto b3dm::file_stream::read32() -> int
   uint8_t const byte4 = read8();
 
   if (ok()) {
-    return ((byte4 << byte4_shift) | (byte3 << byte3_shift) | (byte2 << byte2_shift) | byte1); // NOLINT(*-signed-bitwise)
+    return ((byte4 << byte4_shift) | (byte3 << byte3_shift) | (byte2 << byte2_shift)
+            | byte1);  // NOLINT(*-signed-bitwise)
   }
 
   return 0;

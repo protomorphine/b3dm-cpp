@@ -14,9 +14,9 @@ auto main() -> int
   if (b3dm::decoder decoder(std::move(file)); decoder.read_header() && decoder.read_body()) {
     const b3dm::header* header = decoder.get_header();
 
-    std::streamsize const gltf_bytes_length = header->byte_length - 28
-        - header->feature_table_json_byte_length - header->feature_table_binary_byte_length
-        - header->batch_table_json_byte_length - header->batch_table_binary_byte_length;
+    std::streamsize const gltf_bytes_length = header->byte_length - 28 - header->feature_table_json_byte_length
+        - header->feature_table_binary_byte_length - header->batch_table_json_byte_length
+        - header->batch_table_binary_byte_length;
 
     std::cout << "b3dm contains " << gltf_bytes_length << " gltf bytes\n";
 
