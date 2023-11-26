@@ -17,8 +17,10 @@ include(cmake/variables.cmake)
 
 add_library(
     b3dm-cpp_b3dm-cpp
-        source/file.cpp
-        source/decoder.cpp)
+        source/binary_file.cpp
+        source/decoder.cpp
+        include/b3dm-cpp/format_exception.h
+        include/b3dm-cpp/reader_exception.h)
 
 add_library(b3dm-cpp::b3dm-cpp ALIAS b3dm-cpp_b3dm-cpp)
 
