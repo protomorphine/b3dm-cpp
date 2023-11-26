@@ -2,23 +2,23 @@
 // Created by D.Zaycev on 26.09.2023.
 //
 
-#ifndef B3DM_CPP_SOURCE_FILESTREAM_H_ // NOLINT(*-identifier-naming)
-#define B3DM_CPP_SOURCE_FILESTREAM_H_
+#pragma once
 
+#include <concepts>
+#include <filesystem>
 #include <fstream>
 
 #include "b3dm-cpp/stream_interface.h"
 
-namespace b3dm
+namespace b3dm::streams
 {
 
 /// @brief wrapper for ifstream
 /// @see ifstream
-class B3DM_CPP_EXPORT file_stream : public stream
+class B3DM_CPP_EXPORT binary_file : public binary_readonly_stream
 {
 public:
-  explicit file_stream(std::unique_ptr<std::ifstream> stream);
-  explicit file_stream(std::string_view file_name);
+  explicit binary_file(const std::filesystem::path& file_name);
 
   /// @brief is file_stream in ok state.
   /// @return true - if file_stream in ok state, otherwise - false.
@@ -30,9 +30,7 @@ public:
 
   /// @brief goes to position.
   /// @param[in] abs_pos position to set.
-  auto seek(size_t abs_pos) -> void override {
-    m_file->seekg(static_cast<std::streamoff>(abs_pos));
-  }
+  auto seek(size_t abs_pos) -> void override { m_file->seekg(static_cast<std::streamoff>(abs_pos)); }
 
   /// @brief reads 1 byte from stream.
   /// @return byte.
@@ -46,24 +44,11 @@ public:
 
   /// @brief read 4 bytes, and concatenate them in int32.
   /// @return int32.
-  auto read32() -> int override;
-
-  /// @brief reads string from stream.
-  /// @param[in] size size of string.
-  /// @param[out] out_string read string.
-  /// @return true - if read succeed, otherwise - false.
-  auto read_string(size_t size, std::string& out_string) -> bool override;
-
-  /// @brief reads binary data.
-  /// @param[in] size length of data.
-  /// @return unique pointer to data.
-  auto read(size_t size) -> std::unique_ptr<char_buffer> override;
+  auto read32() -> unsigned int override;
 
 private:
   std::unique_ptr<std::ifstream> m_file;
   bool m_ok = true;
 };
 
-}  // namespace b3dm
-
-#endif  // B3DM_CPP_SOURCE_FILESTREAM_H_
+}  // namespace b3dm::streams

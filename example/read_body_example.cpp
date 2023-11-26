@@ -9,7 +9,7 @@
 auto main() -> int
 {
   auto raw_file = std::make_unique<std::ifstream>("example.b3dm", std::ios::binary);
-  auto file = std::make_unique<b3dm::file_stream>(std::move(raw_file));
+  auto file = std::make_unique<b3dm::binary_file>(std::move(raw_file));
 
   if (b3dm::decoder decoder(std::move(file)); decoder.read_header() && decoder.read_body()) {
     const auto* body = decoder.get_body();

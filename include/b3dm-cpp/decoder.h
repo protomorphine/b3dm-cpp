@@ -2,8 +2,7 @@
 // Created by Daniil on 9/25/2023.
 //
 
-#ifndef B3DM_CPP_SOURCE_DECODER_H_ // NOLINT(*-identifier-naming)
-#define B3DM_CPP_SOURCE_DECODER_H_
+#pragma once
 
 #include <cstdint>
 #include <fstream>
@@ -26,54 +25,52 @@ constexpr size_t b3dm_header_length = 28;
 struct header
 {
   std::string magic;
-  int version;
-  int byte_length;
-  int feature_table_json_byte_length;
-  int feature_table_binary_byte_length;
-  int batch_table_json_byte_length;
-  int batch_table_binary_byte_length;
+  unsigned int version;
+  unsigned int byte_length;
+  unsigned int feature_table_json_byte_length;
+  unsigned int feature_table_binary_byte_length;
+  unsigned int batch_table_json_byte_length;
+  unsigned int batch_table_binary_byte_length;
 };
 
 /// @brief b3dm body.
 struct body
 {
   std::string feature_table_json;
-  std::unique_ptr<char_buffer> feature_table;
+  std::unique_ptr<b3dm::streams::char_buffer> feature_table;
 
   std::string batch_table_json;
-  std::unique_ptr<char_buffer> batch_table;
+  std::unique_ptr<b3dm::streams::char_buffer> batch_table;
 
-  std::unique_ptr<char_buffer> gltf_data;
+  std::unique_ptr<b3dm::streams::char_buffer> gltf_data;
 };
 
 /// @brief b3dm decoder. Allows to read data from b3dm file.
 class B3DM_CPP_EXPORT decoder
 {
 public:
-  explicit decoder(std::unique_ptr<stream> file_interface);
+  explicit decoder(b3dm::streams::binary_readonly_stream* stream);
 
   /// @brief Getter for b3dm header.
   /// @return Header.
-  auto get_header() const -> const header* { return &m_header; }
+  auto get_header() const -> const header& { return m_header; }
 
   /// @brief Getter for b3dm body.
   /// @return Body.
-  auto get_body() const -> const body* { return &m_body; }
+  auto get_body() const -> const body& { return m_body; }
 
+private:
   /// @brief Reads header from file_stream.
   /// @return true - if read succeed, otherwise - false.
-  auto read_header() -> bool;
+  auto read_header() -> void;
 
   /// @brief Reads body from file_stream.
   /// @return true - if read succeed, otherwise - false.
-  auto read_body() -> bool;
+  auto read_body() -> void;
 
-private:
-  std::unique_ptr<stream> m_file;
+  std::unique_ptr<b3dm::streams::binary_readonly_stream> m_file;
   header m_header;
   body m_body;
 };
 
 }  // namespace b3dm
-
-#endif  // B3DM_CPP_SOURCE_DECODER_H_

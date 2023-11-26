@@ -6,37 +6,43 @@
 
 #include "b3dm-cpp/decoder.h"
 
-b3dm::decoder::decoder(std::unique_ptr<stream> file_interface)
-    : m_file(std::move(file_interface))
+b3dm::decoder::decoder(b3dm::streams::binary_readonly_stream* file_interface)
+    : m_file(file_interface)
 {
+  read_header();
+  read_body();
 }
 
-auto b3dm::decoder::read_header() -> bool
+auto b3dm::decoder::read_header() -> void
 {
   std::string magic;
-  if (!m_file->read_string(4, magic)) {
-    return false;
+  if (!m_file->read(magic.data(), 4)) {
+    throw std::system_error();
   }
 
   if (magic != b3dm_magic) {
-    return false;
+    throw std::system_error();
   }
 
-  m_header = header {.magic = magic,
-                     .version = m_file->read32(),
-                     .byte_length = m_file->read32(),
-                     .feature_table_json_byte_length = m_file->read32(),
-                     .feature_table_binary_byte_length = m_file->read32(),
-                     .batch_table_json_byte_length = m_file->read32(),
-                     .batch_table_binary_byte_length = m_file->read32()};
+  m_header = {.magic = magic,
+              .version = m_file->read32(),
+              .byte_length = m_file->read32(),
+              .feature_table_json_byte_length = m_file->read32(),
+              .feature_table_binary_byte_length = m_file->read32(),
+              .batch_table_json_byte_length = m_file->read32(),
+              .batch_table_binary_byte_length = m_file->read32()};
 
-  return m_file->ok();
+  if (m_file->ok()) {
+    return;
+  }
+
+  throw std::system_error();
 }
 
-auto b3dm::decoder::read_body() -> bool
+auto b3dm::decoder::read_body() -> void
 {
-  if (!m_file->ok()) {
-    return false;
+  if (!m_file->ok() && ((&m_header) != nullptr)) {
+    throw std::system_error();
   }
 
   size_t const feature_table_json_length = m_header.feature_table_json_byte_length;
@@ -48,17 +54,17 @@ auto b3dm::decoder::read_body() -> bool
       - feature_table_binary_length - batch_table_json_length - batch_table_binary_length;
 
   std::string feature_table_json;
-  m_file->read_string(feature_table_json_length, feature_table_json);
+  m_file->read(feature_table_json.data(), feature_table_json_length);
   auto feature_table_binary = m_file->read(feature_table_binary_length);
 
   std::string batch_table_json;
-  m_file->read_string(batch_table_json_length, batch_table_json);
+  m_file->read(batch_table_json.data(), batch_table_json_length);
   auto batch_table_binary = m_file->read(batch_table_binary_length);
 
   auto gltf_binary = m_file->read(gltf_binary_length);
 
   if (!m_file->ok()) {
-    return false;
+    throw std::system_error();
   }
 
   m_body = {.feature_table_json = feature_table_json,
@@ -67,5 +73,9 @@ auto b3dm::decoder::read_body() -> bool
             .batch_table = std::move(batch_table_binary),
             .gltf_data = std::move(gltf_binary)};
 
-  return m_file->ok();
+  if (m_file->ok()) {
+    return;
+  }
+
+  throw std::system_error();
 }
