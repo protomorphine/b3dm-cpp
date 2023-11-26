@@ -1,27 +1,22 @@
 #include <iostream>
 
+#include "b3dm-cpp/binary_file.h"
 #include "b3dm-cpp/decoder.h"
-#include "b3dm-cpp/file.h"
 
 auto main() -> int
 {
-  auto raw_file = std::make_unique<std::ifstream>("example.b3dm", std::ios::binary);
-  auto file     = std::make_unique<b3dm::file_stream>(std::move(raw_file));
+  auto file = std::make_unique<b3dm::streams::binary_file>("example.b3dm");
 
-  if(b3dm::decoder decoder(std::move(file)); decoder.read_header()) {
-    const b3dm::header* header = decoder.get_header();
+  b3dm::decoder const decoder(file.get());
+  const b3dm::header& header(decoder.get_header());
 
-    std::cout << "b3dm.header.magic = " << header->magic << '\n';
-    std::cout << "b3dm.header.version = " << header->version << '\n';
-    std::cout << "b3dm.header.byte_length = " << header->byte_length << '\n';
-    std::cout << "b3dm.header.feature_table_json_byte_length = " << header->feature_table_json_byte_length << '\n';
-    std::cout << "b3dm.header.feature_table_binary_byte_length = " << header->feature_table_binary_byte_length << '\n';
-    std::cout << "b3dm.header.batch_table_json_byte_length = " << header->batch_table_json_byte_length << '\n';
-    std::cout << "b3dm.header.batch_table_binary_byte_length = " << header->batch_table_binary_byte_length << '\n';
+  std::cout << "b3dm.header.magic = " << header.magic << '\n';
+  std::cout << "b3dm.header.version = " << header.version << '\n';
+  std::cout << "b3dm.header.byte_length = " << header.byte_length << '\n';
+  std::cout << "b3dm.header.feature_table_json_byte_length = " << header.feature_table_json_byte_length << '\n';
+  std::cout << "b3dm.header.feature_table_binary_byte_length = " << header.feature_table_binary_byte_length << '\n';
+  std::cout << "b3dm.header.batch_table_json_byte_length = " << header.batch_table_json_byte_length << '\n';
+  std::cout << "b3dm.header.batch_table_binary_byte_length = " << header.batch_table_binary_byte_length << '\n';
 
-    return 0;
-  }
-
-  std::cout << "could not read b3dm header" << '\n';
-  return 1;
+  return 0;
 }

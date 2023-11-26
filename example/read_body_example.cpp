@@ -3,23 +3,18 @@
 //
 #include <iostream>
 
+#include "b3dm-cpp/binary_file.h"
 #include "b3dm-cpp/decoder.h"
-#include "b3dm-cpp/file.h"
 
 auto main() -> int
 {
-  auto raw_file = std::make_unique<std::ifstream>("example.b3dm", std::ios::binary);
-  auto file     = std::make_unique<b3dm::file_stream>(std::move(raw_file));
+  auto file = std::make_unique<b3dm::streams::binary_file>("example.b3dm");
 
-  if(b3dm::decoder decoder(std::move(file)); decoder.read_header() && decoder.read_body()) {
-    const b3dm::body* body = decoder.get_body();
+  b3dm::decoder const decoder(file.get());
+  const b3dm::body& body(decoder.get_body());
 
-    std::cout << "b3dm.body.feature_table_json = " << body->feature_table_json << '\n';
-    std::cout << "b3dm.body.batch_table_json = " << body->batch_table_json << '\n';
+  std::cout << "b3dm.body.feature_table_json = " << body.feature_table_json << '\n';
+  std::cout << "b3dm.body.batch_table_json = " << body.batch_table_json << '\n';
 
-    return 0;
-  }
-
-  std::cout << "could not read b3dm" << '\n';
   return 0;
 }

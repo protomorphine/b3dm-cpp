@@ -4,31 +4,21 @@
 
 #include <iostream>
 
+#include "b3dm-cpp/binary_file.h"
 #include "b3dm-cpp/decoder.h"
-#include "b3dm-cpp/file.h"
 
 auto main() -> int
 {
-  auto file = std::make_unique<b3dm::file_stream>("example.b3dm");
+  auto file = std::make_unique<b3dm::streams::binary_file>("example.b3dm");
 
-  if (b3dm::decoder decoder(std::move(file)); decoder.read_header() && decoder.read_body()) {
-    const b3dm::header* header = decoder.get_header();
+  b3dm::decoder decoder(file.get());
+  const b3dm::body& body(decoder.get_body());
 
-    std::streamsize const gltf_bytes_length = header->byte_length - b3dm::b3dm_header_length - header->feature_table_json_byte_length
-        - header->feature_table_binary_byte_length - header->batch_table_json_byte_length
-        - header->batch_table_binary_byte_length;
+  std::cout << "b3dm contains " << body.gltf_data.size() << " gltf bytes\n";
 
-    std::cout << "b3dm contains " << gltf_bytes_length << " gltf bytes\n";
+  std::ofstream out_file("example.glb", std::ios::out | std::ios::binary | std::ios::app);
+  out_file.write(decoder.get_body().gltf_data.data(), body.gltf_data.size());
 
-    std::ofstream out_file("example.glb", std::ios::out | std::ios::binary | std::ios::app);
-
-    out_file.seekp(0);
-    out_file.write(decoder.get_body()->gltf_data->data(), gltf_bytes_length);
-    std::cout << out_file.tellp() << " bytes written\n";
-    out_file.close();
-
-    return 0;
-  }
-
-  return 1;
+  std::cout << out_file.tellp() << " bytes written\n";
+  return 0;
 }
