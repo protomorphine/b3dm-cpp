@@ -23,7 +23,7 @@ constexpr std::string_view b3dm_magic = "b3dm";
 
 /// @brief b3dm header length.
 constexpr size_t b3dm_header_length = 28;
-} // namespace constants
+}  // namespace constants
 
 /// @brief b3dm header.
 struct header
@@ -75,7 +75,7 @@ private:
   b3dm::streams::binary_readonly_stream* m_file;
 
   std::unique_ptr<header> m_header = nullptr;
-  std::unique_ptr<body> m_body = nullptr;
+  std::unique_ptr<body> m_body     = nullptr;
 };
 
 }  // namespace b3dm

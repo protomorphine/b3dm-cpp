@@ -1,17 +1,18 @@
 ---
 Language: Cpp
-# BasedOnStyle: Chromium
 AccessModifierOffset: -2
 AlignAfterOpenBracket: BlockIndent
-AlignConsecutiveMacros: false
+AlignConsecutiveMacros: Consecutive
 AlignConsecutiveAssignments: Consecutive
-AlignConsecutiveBitFields: false
-AlignConsecutiveDeclarations: false
+AlignConsecutiveBitFields:
+  Enabled: false
+AlignConsecutiveDeclarations:
+  Enabled: false
 AlignEscapedNewlines: DontAlign
 AlignOperands: Align
 AlignTrailingComments: false
 AllowAllArgumentsOnNextLine: true
-AllowAllConstructorInitializersOnNextLine: false
+PackConstructorInitializers: NextLine
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortEnumsOnASingleLine: false
 AllowShortBlocksOnASingleLine: Empty
@@ -31,7 +32,7 @@ BraceWrapping:
   AfterClass: true
   AfterControlStatement: MultiLine
   AfterEnum: true
-  AfterFunction: true
+  AfterFunction: false
   AfterNamespace: true
   AfterObjCDeclaration: false
   AfterStruct: true
@@ -49,18 +50,15 @@ BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Custom
 BreakInheritanceList: BeforeComma
 BreakBeforeTernaryOperators: true
-BreakConstructorInitializersBeforeComma: true
 BreakConstructorInitializers: BeforeComma
-BreakAfterJavaFieldAnnotations: true
 BreakStringLiterals: true
 ColumnLimit: 120
 CommentPragmas: '^ IWYU pragma:'
 CompactNamespaces: false
-ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
-Cpp11BracedListStyle: true
-DeriveLineEnding: false
+Cpp11BracedListStyle: false
+LineEnding: DeriveLF
 DerivePointerAlignment: false
 DisableFormat: false
 ExperimentalAutoDetectBinPacking: false
@@ -90,8 +88,6 @@ IndentExternBlock: NoIndent
 IndentWidth: 2
 IndentWrappedFunctionNames: false
 InsertTrailingCommas: Wrapped
-JavaScriptQuotes: Double
-JavaScriptWrapImports: true
 KeepEmptyLinesAtTheStartOfBlocks: false
 MacroBlockBegin: ''
 MacroBlockEnd: ''
@@ -158,17 +154,20 @@ SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 2
 SpacesInAngles: false
 SpacesInConditionalStatement: false
-SpacesInContainerLiterals: false
+SpacesInContainerLiterals: true
 SpacesInCStyleCastParentheses: false
-SpacesInParentheses: false
-SpacesInSquareBrackets: false
+SpacesInParens: Custom
+SpacesInParensOptions:
+  InConditionalStatements: false
+  InEmptyParentheses: false
+  InCStyleCasts: false
+SpacesInSquareBrackets: true
 SpaceBeforeSquareBrackets: false
 Standard: Auto
 StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
 TabWidth: 8
-UseCRLF: false
 UseTab: Never
 WhitespaceSensitiveMacros:
   - STRINGIZE

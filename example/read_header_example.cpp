@@ -3,12 +3,11 @@
 #include "b3dm-cpp/binary_file.h"
 #include "b3dm-cpp/decoder.h"
 
-auto main() -> int
-{
+auto main() -> int {
   auto file = std::make_unique<b3dm::streams::binary_file>("example.b3dm");
 
   b3dm::decoder const decoder(file.get());
-  const b3dm::header& header(decoder.get_header());
+  const b3dm::header& header = decoder.get_header();
 
   std::cout << "b3dm.header.magic = " << header.magic << '\n';
   std::cout << "b3dm.header.version = " << header.version << '\n';
