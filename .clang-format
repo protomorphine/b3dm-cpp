@@ -4,8 +4,6 @@ AccessModifierOffset: -2
 AlignAfterOpenBracket: BlockIndent
 AlignConsecutiveMacros: Consecutive
 AlignConsecutiveAssignments: Consecutive
-AlignConsecutiveBitFields:
-  Enabled: false
 AlignConsecutiveDeclarations:
   Enabled: false
 AlignEscapedNewlines: DontAlign
