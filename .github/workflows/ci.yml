@@ -23,7 +23,7 @@ jobs:
       run: pip3 install codespell
 
     - name: Install clang-format
-      run: apt install clang-format
+      run: pip install clang-format
 
     - name: Lint
       run: cmake -D FORMAT_COMMAND=clang-format -P cmake/lint.cmake
