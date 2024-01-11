@@ -18,9 +18,19 @@ using char_buffer = std::vector<char>;
 /// @brief read-only stream interface.
 class B3DM_CPP_EXPORT binary_readonly_stream
 {
+protected:
+  binary_readonly_stream()                              = default;
+  binary_readonly_stream(const binary_readonly_stream&) = default;
+  binary_readonly_stream(binary_readonly_stream&&)      = default;
+
 public:
   virtual ~binary_readonly_stream() = default;
 
+protected:
+  auto operator=(const binary_readonly_stream&) -> binary_readonly_stream& = default;
+  auto operator=(binary_readonly_stream&&) -> binary_readonly_stream&      = default;
+
+public:
   /// @brief is file_stream in ok state.
   /// @return true - if file_stream in ok state, otherwise - false.
   virtual auto ok() const -> bool = 0;

@@ -8,7 +8,7 @@
 
 #include "b3dm-cpp/reader_exception.h"
 
-b3dm::decoder::decoder(b3dm::streams::binary_readonly_stream* file_interface) : m_file(file_interface) {
+b3dm::decoder::decoder(b3dm::streams::binary_readonly_stream* stream) : m_file(stream) {
   read_header();
   read_body();
 }
@@ -44,10 +44,11 @@ auto b3dm::decoder::read_body() -> void {
     throw b3dm::exceptions::reader_exception();
   }
 
-  uint32_t const gltf_binary_length =
+  auto const gltf_binary_length = static_cast<uint32_t>(
       m_header->byte_length - constants::b3dm_header_length - m_header->feature_table_json_byte_length
       - m_header->feature_table_binary_byte_length - m_header->batch_table_json_byte_length
-      - m_header->batch_table_binary_byte_length;
+      - m_header->batch_table_binary_byte_length
+  );
 
   std::string feature_table_json(m_header->feature_table_json_byte_length, 0);
   m_file->read(feature_table_json.data(), m_header->feature_table_json_byte_length);

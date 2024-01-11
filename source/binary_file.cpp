@@ -14,7 +14,7 @@ auto b3dm::streams::binary_file::read8() -> uint8_t {
     auto val = std::make_unique<char>();
     m_file->read(val.get(), sizeof(char));
 
-    return *val;
+    return static_cast<uint8_t>(*val);
   }
 
   m_ok = false;
@@ -27,7 +27,7 @@ auto b3dm::streams::binary_file::read(char* buf, size_t size) -> bool {
   }
 
   m_ok = m_file->good();
-  return m_ok && m_file->gcount() == size;
+  return m_ok && m_file->gcount() == static_cast<std::streamsize>(size);
 }
 
 auto b3dm::streams::binary_file::read32() -> uint32_t {

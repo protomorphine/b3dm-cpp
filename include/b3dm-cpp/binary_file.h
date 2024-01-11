@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <climits>
 #include <concepts>
 #include <filesystem>
 #include <fstream>
@@ -42,8 +43,7 @@ private:
   /// @brief converts std::byte's to unsigned integral type
   /// @param bytes sequence of std::byte
   /// @return unsigned integral value from bytes
-  constexpr auto bytes_to_uint(std::same_as<std::byte> auto... bytes) -> std::unsigned_integral auto
-  {
+  constexpr auto bytes_to_uint(std::same_as<std::byte> auto... bytes) -> std::unsigned_integral auto {
     constexpr auto byte_length = sizeof...(bytes);
 
     static_assert(byte_length <= sizeof(uint64_t));
@@ -56,7 +56,7 @@ private:
             std::uint16_t,
             std::conditional_t<(byte_length == 4), std::uint32_t, std::uint64_t>>>;
 
-    return [&]<std::size_t... S>(std::index_sequence<S...>)
+    return [ & ]<std::size_t... S>(std::index_sequence<S...>)
     {
       // Accumulate the part of the number using the bitwise or operator for each byte
       return ((static_cast<result_type>(bytes) << CHAR_BIT * (byte_length - S - 1)) | ...);
