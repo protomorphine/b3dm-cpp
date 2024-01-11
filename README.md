@@ -1,4 +1,4 @@
-# b3dm-cpp
+# b3dm-cpp  [![Continuous Integration](https://github.com/protomorphine/b3dm-cpp/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/protomorphine/b3dm-cpp/actions/workflows/ci.yml)
 Provides API to work with `b3dm` [Cesium tiles format](https://github.com/CesiumGS/3d-tiles).   
 
 # Usage
@@ -27,6 +27,7 @@ Provides API to work with `b3dm` [Cesium tiles format](https://github.com/Cesium
   std::cout << out_file.tellp() << " bytes written\n";
 ```
 
+Full API described in [documentation](https://protomorphine.github.io/b3dm-cpp)
 # Building and installing
 
 See the [BUILDING](BUILDING.md) document.
