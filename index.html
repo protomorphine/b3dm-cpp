@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>b3dm-cpp</title>
+  <title>b3dm-cpp  &lt;a href=&quot;https://github.com/protomorphine/b3dm-cpp/actions/workflows/ci.yml&quot;&gt;&lt;img src=&quot;https://github.com/protomorphine/b3dm-cpp/actions/workflows/ci.yml/badge.svg?branch=master&quot; alt=&quot;Continuous Integration&quot;/&gt;&lt;/a&gt; | b3dm-cpp</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,7 +49,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          b3dm-cpp
+          b3dm-cpp  &lt;a href=&quot;https://github.com/protomorphine/b3dm-cpp/actions/workflows/ci.yml&quot;&gt;&lt;img src=&quot;https://github.com/protomorphine/b3dm-cpp/actions/workflows/ci.yml/badge.svg?branch=master&quot; alt=&quot;Continuous Integration&quot;/&gt;&lt;/a&gt;
         </h1>
 <p><a name="md_README"></a>Provides API to work with <code><a href="namespaceb3dm.html" class="m-doc">b3dm</a></code> <a href="https://github.com/CesiumGS/3d-tiles">Cesium tiles format</a>.<br /></p><section id="autotoc_md1"><h2><a href="#autotoc_md1">Usage</a></h2><ol><li><p>Read <code><a href="namespaceb3dm.html" class="m-doc">b3dm</a></code> data:</p><pre class="m-code"><span class="k">auto</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">b3dm</span><span class="o">::</span><span class="n">streams</span><span class="o">::</span><span class="n">binary_file</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;example.b3dm&quot;</span><span class="p">);</span>
 
@@ -67,7 +67,7 @@
 <span class="n">std</span><span class="o">::</span><span class="n">ofstream</span><span class="w"> </span><span class="n">out_file</span><span class="p">(</span><span class="s">&quot;example.glb&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">out</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">binary</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">app</span><span class="p">);</span>
 <span class="n">out_file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">decoder</span><span class="p">.</span><span class="n">get_body</span><span class="p">().</span><span class="n">gltf_data</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">streamoff</span><span class="o">&gt;</span><span class="p">(</span><span class="n">body</span><span class="p">.</span><span class="n">gltf_data</span><span class="p">.</span><span class="n">size</span><span class="p">()));</span>
 
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">out_file</span><span class="p">.</span><span class="n">tellp</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; bytes written</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span></pre></li></ol></section><section id="autotoc_md2"><h2><a href="#autotoc_md2">Building and installing</a></h2><p>See the BUILDING document.</p></section><section id="autotoc_md3"><h2><a href="#autotoc_md3">Contributing</a></h2><p>See the CONTRIBUTING document.</p></section><section id="autotoc_md4"><h2><a href="#autotoc_md4">Licensing</a></h2><p>See [LICENSE](LICENSE) document.</p></section>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">out_file</span><span class="p">.</span><span class="n">tellp</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; bytes written</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span></pre></li></ol><p>Full API described in <a href="https://protomorphine.github.io/b3dm-cpp">documentation</a></p></section><section id="autotoc_md2"><h2><a href="#autotoc_md2">Building and installing</a></h2><p>See the BUILDING document.</p></section><section id="autotoc_md3"><h2><a href="#autotoc_md3">Contributing</a></h2><p>See the CONTRIBUTING document.</p></section><section id="autotoc_md4"><h2><a href="#autotoc_md4">Licensing</a></h2><p>See [LICENSE](LICENSE) document.</p></section>
       </div>
     </div>
   </div>
