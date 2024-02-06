@@ -4,33 +4,30 @@
 
 #pragma once
 
+#include <b3dm-cpp/b3dm-cpp_export.hpp>
 #include <cstddef>
 #include <cstdint>
 #include <vector>
 
-#include <b3dm-cpp/b3dm-cpp_export.hpp>
+namespace b3dm::streams {
 
-namespace b3dm::streams
-{
-
-using char_buffer = std::vector<char>;
+using CharBuffer = std::vector<char>;
 
 /// @brief read-only stream interface.
-class B3DM_CPP_EXPORT binary_readonly_stream
-{
-protected:
-  binary_readonly_stream()                              = default;
-  binary_readonly_stream(const binary_readonly_stream&) = default;
-  binary_readonly_stream(binary_readonly_stream&&)      = default;
+class B3DM_CPP_EXPORT IStream {
+ protected:
+  IStream() = default;
+  IStream(const IStream&) = default;
+  IStream(IStream&&) = default;
 
-public:
-  virtual ~binary_readonly_stream() = default;
+ public:
+  virtual ~IStream() = default;
 
-protected:
-  auto operator=(const binary_readonly_stream&) -> binary_readonly_stream& = default;
-  auto operator=(binary_readonly_stream&&) -> binary_readonly_stream&      = default;
+ protected:
+  auto operator=(const IStream&) -> IStream& = default;
+  auto operator=(IStream&&) -> IStream& = default;
 
-public:
+ public:
   /// @brief is file_stream in ok state.
   /// @return true - if file_stream in ok state, otherwise - false.
   virtual auto ok() const -> bool = 0;

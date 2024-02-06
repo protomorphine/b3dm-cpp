@@ -9,21 +9,20 @@
 #include <filesystem>
 #include <fstream>
 
-#include "b3dm-cpp/binary_readonly_stream.h"
+#include "b3dm-cpp/stream.h"
 
 namespace b3dm::streams
 {
 
 /// @brief wrapper for ifstream
 /// @see ifstream
-class B3DM_CPP_EXPORT binary_file : public binary_readonly_stream
-{
+class B3DM_CPP_EXPORT BinaryFile : public IStream {
 public:
-  explicit binary_file(const std::filesystem::path& file_name);
+  explicit BinaryFile(std::istream& stream);
 
   /// @brief is file_stream in ok state.
   /// @return true - if file_stream in ok state, otherwise - false.
-  auto ok() const -> bool override { return m_ok; }
+  auto ok() const -> bool override { return m_ok_; }
 
   /// @brief reads 1 byte from stream.
   /// @return byte.
@@ -44,27 +43,27 @@ private:
   /// @param bytes sequence of std::byte
   /// @return unsigned integral value from bytes
   constexpr auto bytes_to_uint(std::same_as<std::byte> auto... bytes) -> std::unsigned_integral auto {
-    constexpr auto byte_length = sizeof...(bytes);
+    constexpr auto kByteLength = sizeof...(bytes);
 
-    static_assert(byte_length <= sizeof(uint64_t));
+    static_assert(kByteLength <= sizeof(uint64_t));
 
     using result_type = std::conditional_t<
-        (byte_length == 1),
+        (kByteLength == 1),
         std::uint8_t,
         std::conditional_t<
-            (byte_length == 2),
+            (kByteLength == 2),
             std::uint16_t,
-            std::conditional_t<(byte_length == 4), std::uint32_t, std::uint64_t>>>;
+            std::conditional_t<(kByteLength == 4), std::uint32_t, std::uint64_t>>>;
 
     return [ & ]<std::size_t... S>(std::index_sequence<S...>)
     {
       // Accumulate the part of the number using the bitwise or operator for each byte
-      return ((static_cast<result_type>(bytes) << CHAR_BIT * (byte_length - S - 1)) | ...);
-    }(std::make_index_sequence<byte_length> {});
+      return ((static_cast<result_type>(bytes) << CHAR_BIT * (kByteLength - S - 1)) | ...);
+    }(std::make_index_sequence<kByteLength> {});
   }
 
-  std::unique_ptr<std::ifstream> m_file;
-  bool m_ok = true;
+  std::istream& m_file_;
+  bool m_ok_ = true;
 };
 
 }  // namespace b3dm::streams

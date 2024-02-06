@@ -4,10 +4,11 @@
 #include "b3dm-cpp/decoder.h"
 
 auto main() -> int {
-  auto file = std::make_unique<b3dm::streams::binary_file>("example.b3dm");
+  std::ifstream b3dm_file("example.b3dm", std::ios::binary);
+  b3dm::streams::BinaryFile stream(b3dm_file);
 
-  b3dm::decoder const decoder(file.get());
-  const b3dm::header& header = decoder.get_header();
+  b3dm::Decoder const decoder(stream);
+  const auto& header = decoder.get_header();
 
   std::cout << "b3dm.header.magic = " << header.magic << '\n';
   std::cout << "b3dm.header.version = " << header.version << '\n';
