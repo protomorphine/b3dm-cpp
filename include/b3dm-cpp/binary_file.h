@@ -16,9 +16,9 @@ namespace b3dm::streams
 
 /// @brief wrapper for ifstream
 /// @see ifstream
-class B3DM_CPP_EXPORT BinaryFile : public IStream {
+class B3DM_CPP_EXPORT [[maybe_unused]] BinaryFile : public IStream {
 public:
-  explicit BinaryFile(std::istream& stream);
+  [[maybe_unused]] explicit BinaryFile(std::istream& stream);
 
   /// @brief is file_stream in ok state.
   /// @return true - if file_stream in ok state, otherwise - false.
@@ -42,7 +42,8 @@ private:
   /// @brief converts std::byte's to unsigned integral type
   /// @param bytes sequence of std::byte
   /// @return unsigned integral value from bytes
-  constexpr auto bytes_to_uint(std::same_as<std::byte> auto... bytes) -> std::unsigned_integral auto {
+ template <std::same_as<std::byte>... Bytes>
+ constexpr auto bytes_to_uint([[maybe_unused]]Bytes... bytes) -> std::unsigned_integral auto {
     constexpr auto kByteLength = sizeof...(bytes);
 
     static_assert(kByteLength <= sizeof(uint64_t));
