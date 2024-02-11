@@ -20,30 +20,30 @@ class B3DM_CPP_EXPORT [[maybe_unused]] BinaryFile : public IStream {
 public:
   [[maybe_unused]] explicit BinaryFile(std::istream& stream);
 
-  /// @brief is file_stream in ok state.
-  /// @return true - if file_stream in ok state, otherwise - false.
-  auto ok() const -> bool override { return m_ok_; }
+  /// @brief is file_stream in Ok state.
+  /// @return true - if file_stream in Ok state, otherwise - false.
+  auto Ok() const -> bool override { return m_ok_; }
 
   /// @brief reads 1 byte from stream.
   /// @return byte.
-  auto read8() -> uint8_t override;
+  auto Read8() -> uint8_t override;
 
   /// @brief reads binary data.
   /// @param[out] buf buffer with data.
   /// @param[in] size length of data.
-  /// @return true - if read succeed, otherwise - false.
-  auto read(char* buf, size_t size) -> bool override;
+  /// @return true - if Read succeed, otherwise - false.
+  auto Read(char* buf, size_t size) -> bool override;
 
-  /// @brief read 4 bytes, and concatenate them in int32.
+  /// @brief Read 4 bytes, and concatenate them in int32.
   /// @return int32.
-  auto read32() -> uint32_t override;
+  auto Read32() -> uint32_t override;
 
 private:
   /// @brief converts std::byte's to unsigned integral type
   /// @param bytes sequence of std::byte
   /// @return unsigned integral value from bytes
  template <std::same_as<std::byte>... Bytes>
- constexpr auto bytes_to_uint([[maybe_unused]]Bytes... bytes) -> std::unsigned_integral auto {
+ constexpr auto BytesToUint([[maybe_unused]]Bytes... bytes) -> std::unsigned_integral auto {
     constexpr auto kByteLength = sizeof...(bytes);
 
     static_assert(kByteLength <= sizeof(uint64_t));

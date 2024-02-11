@@ -8,15 +8,15 @@ auto main() -> int {
   b3dm::streams::BinaryFile stream(b3dm_file);
 
   b3dm::Decoder const decoder(stream);
-  const auto& header = decoder.get_header();
+  const auto& header = decoder.GetHeader();
 
-  std::cout << "b3dm.header.magic = " << header.magic << '\n';
-  std::cout << "b3dm.header.version = " << header.version << '\n';
-  std::cout << "b3dm.header.byte_length = " << header.byte_length << '\n';
-  std::cout << "b3dm.header.feature_table_json_byte_length = " << header.feature_table_json_byte_length << '\n';
-  std::cout << "b3dm.header.feature_table_binary_byte_length = " << header.feature_table_binary_byte_length << '\n';
-  std::cout << "b3dm.header.batch_table_json_byte_length = " << header.batch_table_json_byte_length << '\n';
-  std::cout << "b3dm.header.batch_table_binary_byte_length = " << header.batch_table_binary_byte_length << '\n';
+  std::cout << "b3dm.header.Magic = " << header.Magic << '\n';
+  std::cout << "b3dm.header.version = " << header.Version << '\n';
+  std::cout << "b3dm.header.ByteLength = " << header.ByteLength << '\n';
+  std::cout << "b3dm.header.FeatureTableJsonByteLength = " << header.FeatureTableJsonByteLength << '\n';
+  std::cout << "b3dm.header.FeatureTableBinaryByteLength = " << header.FeatureTableBinaryByteLength << '\n';
+  std::cout << "b3dm.header.BatchTableJsonByteLength = " << header.BatchTableJsonByteLength << '\n';
+  std::cout << "b3dm.header.BatchTableBinaryByteLength = " << header.BatchTableBinaryByteLength << '\n';
 
   return 0;
 }

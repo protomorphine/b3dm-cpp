@@ -12,12 +12,12 @@ auto main() -> int {
   b3dm::streams::BinaryFile stream(b3dm_file);
 
   b3dm::Decoder const decoder(stream);
-  const auto& body = decoder.get_body();
+  const auto& body = decoder.GetBody();
 
-  std::cout << "b3dm contains " << body.glb_data.size() << " gltf bytes\n";
+  std::cout << "b3dm contains " << body.GlbData.size() << " gltf bytes\n";
 
   std::ofstream out_file("example.glb", std::ios::out | std::ios::binary | std::ios::app);
-  out_file.write(decoder.get_body().glb_data.data(), static_cast<std::streamoff>(body.glb_data.size()));
+  out_file.write(decoder.GetBody().GlbData.data(), static_cast<std::streamoff>(body.GlbData.size()));
 
   std::cout << out_file.tellp() << " bytes written\n";
   return 0;

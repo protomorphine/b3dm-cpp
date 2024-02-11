@@ -11,10 +11,10 @@ auto main() -> int {
   b3dm::streams::BinaryFile stream(b3dm_file);
 
   b3dm::Decoder const decoder(stream);
-  const auto& body = decoder.get_body();
+  const auto& body = decoder.GetBody();
 
-  std::cout << "b3dm.body.feature_table_json = " << body.feature_table_json << '\n';
-  std::cout << "b3dm.body.batch_table_json = " << body.batch_table_json << '\n';
+  std::cout << "b3dm.body.FeatureTableJson = " << body.FeatureTableJson << '\n';
+  std::cout << "b3dm.body.BatchTableJson = " << body.BatchTableJson << '\n';
 
   return 0;
 }

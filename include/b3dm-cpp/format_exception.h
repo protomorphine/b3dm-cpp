@@ -9,7 +9,7 @@
 namespace b3dm::exceptions
 {
 
-/// @brief incorrect format exception. Raises when passed header magic string is not 'b3dm'
+/// @brief incorrect format exception. Raises when passed header Magic string is not 'b3dm'
 class IncorrectFormat : public std::exception
 {
 public:
