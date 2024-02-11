@@ -1,8 +1,9 @@
 //
 // Created by kuper on 11.02.2024.
 //
-#include <gtest/gtest.h>
 #include "b3dm-cpp/binary_file.h"
+
+#include <gtest/gtest.h>
 
 TEST(BinaryFileTest, OkState) {
   std::istringstream stream("test");
@@ -21,7 +22,7 @@ TEST(BinaryFileTest, Read8) {
 }
 
 TEST(BinaryFileTest, Read) {
-  std::string const expected {"data"};
+  std::string const expected{"data"};
   std::istringstream stream(expected);
   b3dm::streams::BinaryFile binary_file(stream);
 
