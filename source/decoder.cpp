@@ -52,10 +52,9 @@ auto b3dm::Decoder::ReadBody() -> void {
     throw b3dm::exceptions::ReaderException{};
   }
 
-  auto const gltf_binary_length =
-      static_cast<uint32_t>(header_->ByteLength - constants::kB3dmHeaderLength -
-                            header_->FeatureTableJsonByteLength - header_->FeatureTableBinaryByteLength -
-                            header_->BatchTableJsonByteLength - header_->BatchTableBinaryByteLength);
+  auto const gltf_binary_length = static_cast<uint32_t>(
+      header_->ByteLength - constants::kB3dmHeaderLength - header_->FeatureTableJsonByteLength -
+      header_->FeatureTableBinaryByteLength - header_->BatchTableJsonByteLength - header_->BatchTableBinaryByteLength);
 
   auto feature_table_json = Read<std::string>(header_->FeatureTableJsonByteLength);
   auto feature_table_binary = Read<streams::CharBuffer>(header_->FeatureTableBinaryByteLength);
@@ -69,7 +68,7 @@ auto b3dm::Decoder::ReadBody() -> void {
 
   body_ = std::make_unique<Body>();
   body_->FeatureTableJson = feature_table_json;
-  body_->feature_table = feature_table_binary;
+  body_->FeatureTable = feature_table_binary;
   body_->BatchTableJson = batch_table_json;
   body_->BatchTable = batch_table_binary;
   body_->GlbData = glb_binary;

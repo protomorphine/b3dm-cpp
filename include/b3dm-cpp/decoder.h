@@ -36,7 +36,7 @@ struct Header {
 /// @brief b3dm body.
 struct Body {
   std::string FeatureTableJson;
-  b3dm::streams::CharBuffer feature_table;
+  b3dm::streams::CharBuffer FeatureTable;
 
   std::string BatchTableJson;
   b3dm::streams::CharBuffer BatchTable;
@@ -45,7 +45,7 @@ struct Body {
 };
 
 /// @brief b3dm decoder. Allows to Read data from b3dm file.
-class B3DM_CPP_EXPORT Decoder {
+class B3DM_CPP_EXPORT Decoder final {
  public:
   explicit Decoder(b3dm::streams::IStream& stream);
 
@@ -73,7 +73,6 @@ class B3DM_CPP_EXPORT Decoder {
 
     return buf;
   }
-
 
   b3dm::streams::IStream& source_;
 

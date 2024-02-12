@@ -6,13 +6,11 @@
 
 #include <exception>
 #include <string>
-namespace b3dm::exceptions
-{
+namespace b3dm::exceptions {
 
 /// @brief reader exception. Raises when couldn't Read data from file.
-class ReaderException : public std::exception
-{
-public:
+class ReaderException : public std::exception {
+ public:
   ReaderException() = default;
 
   /// @brief Returns a C-style character string describing the general cause of the current error.

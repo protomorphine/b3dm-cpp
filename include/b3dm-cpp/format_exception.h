@@ -6,13 +6,11 @@
 
 #include <exception>
 #include <string>
-namespace b3dm::exceptions
-{
+namespace b3dm::exceptions {
 
 /// @brief incorrect format exception. Raises when passed header Magic string is not 'b3dm'
-class IncorrectFormat : public std::exception
-{
-public:
+class IncorrectFormat : public std::exception {
+ public:
   IncorrectFormat() = default;
 
   /// @brief Returns a C-style character string describing the general cause of the current error.
