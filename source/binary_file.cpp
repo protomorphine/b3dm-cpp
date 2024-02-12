@@ -13,7 +13,7 @@ auto b3dm::streams::BinaryFile::Read8() -> uint8_t {
     auto val = std::make_unique<char>();
     m_file_.read(val.get(), sizeof(char));
 
-    return static_cast<uint8_t >(*val);
+    return static_cast<uint8_t>(*val);
   }
 
   m_ok_ = false;
