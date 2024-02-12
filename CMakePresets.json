@@ -86,8 +86,7 @@
       "hidden": true,
       "inherits": ["flags-gcc-clang", "ci-std"],
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "BUILD_TESTING": "OFF"
+        "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
